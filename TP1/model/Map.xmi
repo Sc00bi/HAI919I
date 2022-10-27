@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<tp1:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tp1="maps" name="Chamberte">
+  <roads xsi:type="tp1:Street" name="Liserons" length="150" meet="//@roads.4 //@roads.1" border="//@spaces.0"/>
+  <roads xsi:type="tp1:Street" name="Bleuets" length="300" meet="//@roads.3 //@roads.0" border="//@spaces.2"/>
+  <roads xsi:type="tp1:Pedestrian" name="Lilas" length="80" meet="//@roads.4 //@roads.1" border="//@spaces.1"/>
+  <roads xsi:type="tp1:Pedestrian" name="Jonquilles" length="500" meet="//@roads.1 //@roads.4"/>
+  <roads xsi:type="tp1:Street" name="Gen&#xea;ts" meet="//@roads.3 //@roads.0" border="//@spaces.2"/>
+  <spaces xsi:type="tp1:Garden" name="Pinede" borderedBy="//@roads.0"/>
+  <spaces xsi:type="tp1:Square" name="Montcalm" borderedBy="//@roads.2"/>
+  <spaces xsi:type="tp1:Garden" name="Pin&#xe8;de" borderedBy="//@roads.4 //@roads.1"/>
+</tp1:Map>

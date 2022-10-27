@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_N5mVQFW_Ee2dD9fVvIGEZA" name="TomModel">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_N5mVQVW_Ee2dD9fVvIGEZA">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_N5mVQlW_Ee2dD9fVvIGEZA" name="p1">
+    <packagedElement xmi:type="uml:Class" xmi:id="_N5mVQ1W_Ee2dD9fVvIGEZA" name="A">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_N5mVRFW_Ee2dD9fVvIGEZA" name="attribute" visibility="private" type="_N5mVQ1W_Ee2dD9fVvIGEZA"/>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_N5mVRVW_Ee2dD9fVvIGEZA" name="p2"/>
+</uml:Model>
