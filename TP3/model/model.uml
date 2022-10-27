@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_wWJ58FXIEe2dD9fVvIGEZA" name="model">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_wWwW4FXIEe2dD9fVvIGEZA">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_xyLzEFXIEe2dD9fVvIGEZA" name="A" visibility="package" classifierBehavior="_foTN0FXOEe2dD9fVvIGEZA">
+    <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_foTN0FXOEe2dD9fVvIGEZA" name="StateMachine2">
+      <region xmi:type="uml:Region" xmi:id="_gupx4FXOEe2dD9fVvIGEZA" name="Region1">
+        <transition xmi:type="uml:Transition" xmi:id="_p0iYUFXOEe2dD9fVvIGEZA" source="_pDD4EFXOEe2dD9fVvIGEZA" target="_mmLl8FXOEe2dD9fVvIGEZA"/>
+        <transition xmi:type="uml:Transition" xmi:id="_qrToQFXOEe2dD9fVvIGEZA" source="_mmLl8FXOEe2dD9fVvIGEZA" target="_oLzf8FXOEe2dD9fVvIGEZA">
+          <trigger xmi:type="uml:Trigger" xmi:id="__nMzYFXOEe2dD9fVvIGEZA" event="_-7gLAFXOEe2dD9fVvIGEZA"/>
+        </transition>
+        <subvertex xmi:type="uml:State" xmi:id="_mmLl8FXOEe2dD9fVvIGEZA" name="E1"/>
+        <subvertex xmi:type="uml:State" xmi:id="_oLzf8FXOEe2dD9fVvIGEZA" name="E2"/>
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_pDD4EFXOEe2dD9fVvIGEZA" name="Initial3"/>
+      </region>
+    </ownedBehavior>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_iGedQFXKEe2dD9fVvIGEZA" name="m"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:CallEvent" xmi:id="_-7gLAFXOEe2dD9fVvIGEZA" operation="_iGedQFXKEe2dD9fVvIGEZA"/>
+</uml:Model>
