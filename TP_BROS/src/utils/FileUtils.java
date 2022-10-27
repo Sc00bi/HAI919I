@@ -11,8 +11,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLMapImpl;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
@@ -47,9 +49,12 @@ public class FileUtils {
 	}
 
 	public static void main(String[] args) {
-		// Q3.1 : on lance la création de notre modèle
-		Model uml = generateModel();
+		PaAModel paa = chargerModelePaA("model/PaAModel.xmi");
 
+		// Q3.6
+		Model uml = createUMLModel(paa);
+
+		System.out.println("On sauvegarde le modèle.");
 		sauverModeleUML(String.format("model/%s.uml", uml.getName()), uml);
 	}
 
@@ -87,7 +92,7 @@ public class FileUtils {
 
 	// Q3.3 : retourne une classe UML, créé à partir d'une Entity passée en
 	// paramètre
-	public static org.eclipse.uml2.uml.Class createEntity(Model uml, Entity entity) {
+	public static org.eclipse.uml2.uml.Class createUMLClass(Model uml, Entity entity) {
 		String entityName = entity.getName();
 
 		// Génération de notre classe
@@ -97,14 +102,15 @@ public class FileUtils {
 		// Gestion des champs de l'entité
 		for (Field field : entity.getFields()) {
 			Property property = createUMLProperty(uml, field);
-			classe.allAttributes().add(property);
+
+			classe.getOwnedAttributes().add(property);
 		}
 
 		return classe;
 	}
 
 	// Q3.4 : retourne une opération publique de l'uml
-	public static Operation createOperation(Model uml, FieldDependantQuery fieldDQ) {
+	public static Operation createUMLOperation(Model uml, FieldDependantQuery fieldDQ) {
 
 		// Concaténation du type de requete et du champ sur le quel il s'éxerce
 		String fieldName = fieldDQ.getField().getName();
@@ -131,7 +137,7 @@ public class FileUtils {
 	}
 
 	// Q3.5 : retourne une interface UML à partir d'un Repository
-	public static Interface createInterface(Model uml, Repository repository) {
+	public static Interface createUMLInterface(Model uml, Repository repository) {
 		// Concaténation pour le nom de l'interface
 		String interfaceName = repository.getTypeEntity().getName() + "Repository";
 
@@ -140,20 +146,70 @@ public class FileUtils {
 		interfaceUML.setName(interfaceName);
 		// Gestion des requêtes de l'entité
 		for (Query query : repository.getQueries()) {
-			Operation operation = createOperation(uml, (FieldDependantQuery) query); // Nous ne traitons pas les
+			Operation operation = createUMLOperation(uml, (FieldDependantQuery) query); // Nous ne traitons pas les
 																						// BasicsQuery, sinon une
 																						// vérification est nécessaire
-			interfaceUML.getAllOperations().add(operation);
+			interfaceUML.getOwnedOperations().add(operation);
 		}
 		// Ajout du commentaire à l'interface
 		Comment comment = factory.createComment();
-		comment.setBody("@Entity");
+		comment.setBody("@Repository");
 		interfaceUML.getOwnedComments().add(comment);
 
 		return null;
 	}
 
-	// Q3.6 :
+	// Q3.6 : retourne un modèle UML à partir d'un PaAModel
+	public static Model createUMLModel(PaAModel paAModel) {
+		Model uml = generateModel();
+		
+		// Liste permettant de ne pas ajouter des entités déjà ajoutées : permet de
+		// gérer l'héritage des classes
+		List<Entity> alreadyInserted = new ArrayList<>();
+		// Liste permettant d'accéder aux classes associées aux entitées déjà ajoutées
+		List<Class> superClasses = new ArrayList<>();
+
+		// Gestion des entités de notre PaAModel en classes
+		for (Entity entity : paAModel.getEntities()) {
+			org.eclipse.uml2.uml.Class classe = createUMLClass(uml, entity);
+			uml.getPackagedElements().add(classe);
+
+			// On vérifie si notre entité a une super-entité
+			Entity superEntity = entity.getSuperEntity();
+			Class superClasse;
+			if (superEntity != null) {
+
+				// Si la classe n'a pas encore été créée, on la créée puis on aggrémente nos
+				// deux listes
+				if (!alreadyInserted.contains(superEntity)) {
+					superClasse = createUMLClass(uml, superEntity);
+					alreadyInserted.add(superEntity);
+					superClasses.add(superClasse);
+					uml.getPackagedElements().add(superClasse);
+				}
+				// Sinon, on obtient la super classe
+				else {
+					superClasse = superClasses.get(alreadyInserted.indexOf(superEntity));
+					uml.getPackagedElements().add(superClasse);
+				}
+				Generalization generalization = factory.createGeneralization();
+				generalization.setSpecific(classe);
+				generalization.setGeneral(superClasse);
+			}
+		}
+
+		// Gestion de nos dépôts en interfaces
+		for (Repository repository : paAModel.getRepositories()) {
+			Interface interfaceNew = createUMLInterface(uml, repository);
+			if (interfaceNew != null)
+			{
+			uml.getPackagedElements().add(interfaceNew);
+			}
+		}
+		
+		FileUtils.sauverModeleUML("model/newModel.uml", uml);
+		return uml;
+	}
 
 	/* Méthodes préalablement fournies */
 	// Méthode de sauvegarde modèle
